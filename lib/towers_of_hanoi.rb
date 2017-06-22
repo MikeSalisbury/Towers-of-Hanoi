@@ -50,14 +50,14 @@ class TowersOfHanoi
     until won?
       render
       p 'What tower would you like to select a disc from?'
-      from_tower = gets.chomp.to_i
+      from_tower = gets.chomp.to_i - 1
       p 'Where would you like to move the disc to?'
-      to_tower = gets.chomp.to_i
+      to_tower = gets.chomp.to_i - 1
       @disc = @towers[from_tower].last
       if valid_move?(from_tower, to_tower)
         move(from_tower, to_tower)
       else
-        raise 'That is not a valid move!'
+        raise 'That is not a valid move! Please choose tower 1, tower 2 or tower 3'
       end
     end
   end
@@ -67,7 +67,7 @@ class TowersOfHanoi
   end
 
   def valid_move?(from_tower, to_tower)
-    if from_tower < @towers.length && to_tower < @towers.length #true
+    if (from_tower + 1 > 0 && from_tower < @towers.length) && (to_tower + 1 > 0 && to_tower < @towers.length)
       if (@towers[from_tower] != [] && @towers[to_tower] != []) && (@disc < @towers[to_tower].last)
         return true
       elsif @towers[from_tower] != [] && @towers[to_tower] == []
@@ -93,5 +93,5 @@ class TowersOfHanoi
   end
 end
 
-# game = TowersOfHanoi.new
-# game.play
+game = TowersOfHanoi.new
+game.play
