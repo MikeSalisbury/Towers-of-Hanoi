@@ -40,5 +40,58 @@
 # methods named above.
 
 class TowersOfHanoi
+  attr_reader :towers
 
+  def initialize
+    @towers = [[3, 2, 1],[],[]]
+  end
+
+  def play
+    until won?
+      render
+      p 'What tower would you like to select a disc from?'
+      from_tower = gets.chomp.to_i
+      p 'Where would you like to move the disc to?'
+      to_tower = gets.chomp.to_i
+      @disc = @towers[from_tower].last
+      if valid_move?(from_tower, to_tower)
+        move(from_tower, to_tower)
+      else
+        raise 'That is not a valid move!'
+      end
+    end
+  end
+
+  def render
+    p @towers
+  end
+
+  def valid_move?(from_tower, to_tower)
+    if from_tower < @towers.length && to_tower < @towers.length #true
+      if (@towers[from_tower] != [] && @towers[to_tower] != []) && (@disc < @towers[to_tower].last)
+        return true
+      elsif @towers[from_tower] != [] && @towers[to_tower] == []
+        return true
+      else
+        return false
+      end
+    else
+      return false
+    end
+  end
+
+  def move(from_tower, to_tower)
+    @disc = @towers[from_tower].pop
+    @towers[to_tower].push(@disc)
+  end
+
+  def won?
+    if @towers[0] == [] && (@towers[1] == [3, 2, 1] || @towers[2] == [3, 2, 1])
+      p "you've won!"
+      return true
+    end
+  end
 end
+
+# game = TowersOfHanoi.new
+# game.play
